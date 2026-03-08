@@ -1,9 +1,14 @@
 from openai import OpenAI
 import numpy as np
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env
+load_dotenv()
 
 # Initialize client
 # Option 1: Use environment variable OPENAI_API_KEY
-client = OpenAI(api_key="***REMOVED***")
+client = OpenAI()
 
 # Sample sentences
 texts = [

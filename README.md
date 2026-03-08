@@ -14,13 +14,17 @@ It showcases practical skills in **prompt engineering, API integration, embeddin
 
 ### 2. Embeddings and Semantic Understanding
 - File: `code/embeddings_demo.py`
-- Generates **embedding vectors** for multiple sentences
-- Computes **semantic similarity** to show how AI captures meaning, not just keywords
-- Forms the foundation for **Retrieval-Augmented Generation (RAG) pipelines** and AI knowledge retrieval
+- Generates **embedding vectors** for multiple sentences using OpenAI API
+- Computes **semantic similarity** between sentence pairs to show how AI captures meaning rather than exact words
+- Demonstrates the foundation for **Retrieval-Augmented Generation (RAG) pipelines** and AI-powered knowledge assistants
+- Output includes:
+  - Length of embedding vectors
+  - Similarity scores between all sentence pairs
 
-## Setup Instructions
-1. Install Python 3.8+ and pip
-2. Install dependencies:
+#### How to Run
+1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
+2. **Install Python 3.8+ and pip** 
+3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
