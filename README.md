@@ -25,6 +25,16 @@ It showcases practical skills in **prompt engineering, API integration, embeddin
 1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
 2. **Install Python 3.8+ and pip** 
 3. Install dependencies:
+4. Set your OpenAI API key securely
+- Create a .env file in the project root with the following content:
+- OPENAI_API_KEY=sk-XXXX
+- Make sure .env is listed in .gitignore so it is never pushed to GitHub
+5. Run the scripts:
+- python code/test_ai.py
+- python code/embeddings_demo.py
+
+- test_ai.py → tests basic LLM prompts
+- embeddings_demo.py → generates embeddings and computes semantic similarity
 
 ```bash
 pip install -r requirements.txt
