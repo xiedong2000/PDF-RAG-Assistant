@@ -25,7 +25,7 @@ def cosine_similarity(a, b):
 # Load documents
 documents = []
 
-with open("../docs/ai_notes.txt", "r", encoding="utf-8") as f:
+with open("docs/ai_notes.txt", "r", encoding="utf-8") as f:
     documents.append(f.read())
 
 
