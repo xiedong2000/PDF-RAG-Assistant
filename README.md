@@ -29,6 +29,15 @@ simple semantic search engine. This is a core component
 of Retrieval-Augmented Generation (RAG) systems used
 in modern AI assistants.
 
+### RAG Document Assistant
+
+`rag_document_assistant.py` demonstrates a basic Retrieval-Augmented
+Generation (RAG) pipeline.
+
+The script loads documents, converts them into embeddings, retrieves
+the most relevant document for a question using cosine similarity,
+and uses an OpenAI model to generate an answer based on that context.
+
 #### How to Run
 1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
 2. **Install Python 3.8+ and pip** 
