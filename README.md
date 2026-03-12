@@ -38,6 +38,20 @@ The script loads documents, converts them into embeddings, retrieves
 the most relevant document for a question using cosine similarity,
 and uses an OpenAI model to generate an answer based on that context.
 
+### PDF Document Assistant
+
+`pdf_rag_assistant.py` demonstrates a Retrieval-Augmented
+Generation (RAG) pipeline that can answer questions about
+a PDF document.
+
+The script:
+1. Extracts text from a PDF
+2. Splits the document into chunks
+3. Generates embeddings for each chunk
+4. Finds the most relevant context using cosine similarity
+5. Uses an LLM to generate an answer based on the retrieved context
+
+
 #### How to Run
 1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
 2. **Install Python 3.8+ and pip** 
