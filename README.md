@@ -1,8 +1,12 @@
 # PDF-RAG-Assistant
 
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![OpenAI](https://img.shields.io/badge/OpenAI-API-brightgreen)
+![Streamlit](https://img.shields.io/badge/Streamlit-UI-orange)
+![License](https://img.shields.io/github/license/xiedong2000/PDF-RAG-Assistant)
+![GitHub last commit](https://img.shields.io/github/last-commit/xiedong2000/PDF-RAG-Assistant)
+
 **Requirements:** Python 3.12+, OpenAI API key
-
-
 
 ## Overview
 This repository contains Python projects demonstrating the use of **OpenAI API** for building AI-powered tools.  
