@@ -44,6 +44,22 @@ and uses an OpenAI model to generate an answer based on that context.
 Generation (RAG) pipeline that can answer questions about
 a PDF document.
 
+### PDF RAG Assistant with Vector Database
+
+`pdf_rag_chroma.py` demonstrates a Retrieval-Augmented
+Generation (RAG) pipeline that uses a vector database
+to store and retrieve document embeddings.
+
+The script extracts text from a PDF document, splits the
+text into smaller chunks, generates embeddings for each
+chunk using the OpenAI API, and stores those embeddings
+in a Chroma vector database.
+
+When a user asks a question, the script retrieves the
+most relevant document chunks using semantic similarity
+search and uses an OpenAI model to generate an answer
+based on the retrieved context.
+
 The script:
 1. Extracts text from a PDF
 2. Splits the document into chunks
