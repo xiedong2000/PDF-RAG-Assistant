@@ -6,6 +6,8 @@ from pathlib import Path
 from pypdf import PdfReader
 import chromadb
 
+from rag_engine import create_embedding, create_embeddings, retrieve_context, generate_answer
+
 load_dotenv()
 
 client = OpenAI()
@@ -35,18 +37,22 @@ if collection.count() == 0:
 
     print("Creating embeddings and storing in vector DB...")
 
-    response = client.embeddings.create(
-        model="text-embedding-3-small",
-        input=chunks
-    )
+    # response = client.embeddings.create(
+    #     model="text-embedding-3-small",
+    #     input=chunks
+    # )
 
-    embeddings = [d.embedding for d in response.data]
+    # embeddings = [d.embedding for d in response.data]
+
+    embeddings = create_embeddings(chunks)
 
     collection.add(
         documents=chunks,
         embeddings=embeddings,
         ids=[str(i) for i in range(len(chunks))]
     )
+else:
+    print("Using existing vector database...")
 
 query = input("Ask a question about the PDF: ")
 

@@ -1,5 +1,7 @@
 # OpenAI-Test
 
+**Requirements:** Python 3.12+, OpenAI API key
+
 ## Overview
 This repository contains Python projects demonstrating the use of **OpenAI API** for building AI-powered tools.  
 It showcases practical skills in **prompt engineering, API integration, embeddings, and semantic similarity** — foundational for AI knowledge assistants and RAG systems.
@@ -50,15 +52,25 @@ a PDF document.
 Generation (RAG) pipeline that uses a vector database
 to store and retrieve document embeddings.
 
-The script extracts text from a PDF document, splits the
-text into smaller chunks, generates embeddings for each
-chunk using the OpenAI API, and stores those embeddings
-in a Chroma vector database.
+The script extracts text from a PDF document, splits the text into smaller chunks, generates embeddings using the OpenAI API, and stores those embeddings in ChromaDB. The vector database is reused across runs to avoid regenerating embeddings.
 
 When a user asks a question, the script retrieves the
 most relevant document chunks using semantic similarity
 search and uses an OpenAI model to generate an answer
 based on the retrieved context.
+
+### Vector Database Caching
+
+To avoid recreating embeddings every time the script runs, the application checks whether the vector database already contains stored embeddings.
+
+If embeddings exist, the script reuses the existing vector database instead of generating new embeddings.
+
+Benefits:
+
+* Reduces OpenAI API calls
+* Improves performance
+* Demonstrates a common optimization used in production Retrieval-Augmented Generation systems
+
 
 The script:
 1. Extracts text from a PDF
