@@ -3,6 +3,10 @@
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![OpenAI](https://img.shields.io/badge/OpenAI-API-brightgreen)
 ![Streamlit](https://img.shields.io/badge/Streamlit-UI-orange)
+![License](https://img.shields.io/github/license/xiedong2000/OpenAi-Public)
+![GitHub last commit](https://img.shields.io/github/last-commit/xiedong2000/OpenAi-Public)
+![GitHub issues](https://img.shields.io/github/issues/xiedong2000/OpenAi-Public)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/xiedong2000/OpenAi-Public)
 
 ---
 
