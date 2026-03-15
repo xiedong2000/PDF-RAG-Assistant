@@ -77,22 +77,31 @@ about the document content. The application
 retrieves relevant text using vector similarity
 search and generates answers using the OpenAI API.
 
-#### How to Run
-1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
-2. **Install Python 3.8+ and pip** 
-3. Install dependencies:
-- 3a. Install python-dotenv if not already installed:
-4. Set your OpenAI API key securely
+## Setup
+
+This project requires Python 3.12 or later.
+
+### Create a virtual environment
+Use Python 3.12 to create a virtual environment for the project.
+- py -3.12 -m venv ai-env
+Activate the environment:
+- ai-env\Scripts\activate
+Verify the Python version:
+- python --version
+python --version: 
+- Python 3.12.x
+Install dependencies:
+- pip install -r requirements.txt
+Install python-dotenv if not already installed:
+- pip install python-dotenv
+Install chroma, streamlit if not already installed:
+
+Set your OpenAI API key securely
 - Create a .env file in the project root with the following content:
 - OPENAI_API_KEY=sk-XXXX
 - Make sure .env is listed in .gitignore so it is never pushed to GitHub
-5. Run the scripts:
+Run the scripts:
 - python code/test_ai.py
 - python code/embeddings_demo.py
-
 - test_ai.py → tests basic LLM prompts
 - embeddings_demo.py → generates embeddings and computes semantic similarity
-
-```bash
-pip install -r requirements.txt
-pip install python-dotenv
