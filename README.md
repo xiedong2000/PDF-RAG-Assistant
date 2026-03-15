@@ -67,6 +67,15 @@ The script:
 4. Finds the most relevant context using cosine similarity
 5. Uses an LLM to generate an answer based on the retrieved context
 
+### AI Document Chat Web App
+
+`streamlit_app.py` provides a web interface for the
+PDF RAG assistant using Streamlit.
+
+Users can upload a PDF document and ask questions
+about the document content. The application
+retrieves relevant text using vector similarity
+search and generates answers using the OpenAI API.
 
 #### How to Run
 1. Ensure you have your **OpenAI API key** set as an environment variable (`OPENAI_API_KEY`)  
