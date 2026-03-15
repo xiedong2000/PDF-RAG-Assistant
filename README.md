@@ -2,9 +2,21 @@
 
 **Requirements:** Python 3.12+, OpenAI API key
 
+
+
 ## Overview
 This repository contains Python projects demonstrating the use of **OpenAI API** for building AI-powered tools.  
 It showcases practical skills in **prompt engineering, API integration, embeddings, and semantic similarity** — foundational for AI knowledge assistants and RAG systems.
+
+## Demo
+
+### Upload PDF
+
+![Upload PDF](docs/upload_ui.png)
+
+### Ask Questions About the Document
+
+![Question Answer](docs/qa_example.png)
 
 ## Project Components
 
