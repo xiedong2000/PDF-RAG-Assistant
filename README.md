@@ -6,11 +6,19 @@
 ![License](https://img.shields.io/github/license/xiedong2000/PDF-RAG-Assistant)
 ![GitHub last commit](https://img.shields.io/github/last-commit/xiedong2000/PDF-RAG-Assistant)
 
-**Requirements:** Python 3.12+, OpenAI API key
-
 ## Overview
-This repository contains Python projects demonstrating the use of **OpenAI API** for building AI-powered tools.  
-It showcases practical skills in **prompt engineering, API integration, embeddings, and semantic similarity** — foundational for AI knowledge assistants and RAG systems.
+
+**PDF-RAG-Assistant** is a Retrieval-Augmented Generation (RAG) AI assistant that can answer questions about PDF documents.  
+It uses:
+
+- **OpenAI embeddings** to convert text into numerical vectors
+- **Chroma vector database** to store and retrieve document embeddings efficiently
+- **Streamlit** web interface for interactive Q&A
+- **Vector database caching** to avoid repeated embedding generation
+
+This project demonstrates **real-world AI system design** and is structured for modularity and reusability.
+
+---
 
 ## Demo
 
@@ -22,114 +30,129 @@ It showcases practical skills in **prompt engineering, API integration, embeddin
 
 ![Question Answer](docs/qa_example.png)
 
-## Project Components
 
-### 1. Prompt Testing and LLM Integration
-- File: `code/test_ai.py`
-- Sends prompts to a large language model (LLM) and prints responses
-- Demonstrates ability to **integrate OpenAI API** and understand **prompt behavior**
-- Prepares for **multi-turn AI workflows and agent simulations**
+## Project Structure
 
-### 2. Embeddings and Semantic Understanding
-- File: `code/embeddings_demo.py`
-- Generates **embedding vectors** for multiple sentences using OpenAI API
-- Computes **semantic similarity** between sentence pairs to show how AI captures meaning rather than exact words
-- Demonstrates the foundation for **Retrieval-Augmented Generation (RAG) pipelines** and AI-powered knowledge assistants
-- Output includes:
-  - Length of embedding vectors
-  - Similarity scores between all sentence pairs
+```
+OpenAi-Public/
+│
+├── app/                     # Streamlit web UI
+├── code/                    # Python scripts
+│   ├── rag_engine.py        # Embeddings, retrieval, answer generation
+│   ├── rag_document_assistant.py
+│   ├── pdf_rag_assistant.py
+│   └── pdf_rag_chroma.py
+├── docs/                    # Screenshots for README
+│   ├── upload_ui.png
+│   └── qa_example.png
+├── documents/               # Sample PDF or text documents
+├── README.md
+├── requirements.txt
+└── .gitignore
+```
 
-### Semantic Search Demo
+---
 
-`vector_search_demo.py` demonstrates how embeddings
-and cosine similarity can be used to implement a
-simple semantic search engine. This is a core component
-of Retrieval-Augmented Generation (RAG) systems used
-in modern AI assistants.
+## Setup Instructions
+
+1. **Install Python 3.12+**  
+2. **Create virtual environment**:
+
+```bash
+python -m venv ai-env
+```
+
+3. **Activate environment**:
+
+```bash
+# Windows
+ai-env\Scripts\activate
+```
+
+4. **Install dependencies**:
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+5. **Create `.env` file** in the project root and add your OpenAI key:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+6. **Place PDF or text documents** in `documents/` folder.
+
+---
+
+## Usage
 
 ### RAG Document Assistant
 
-`rag_document_assistant.py` demonstrates a basic Retrieval-Augmented
-Generation (RAG) pipeline.
+`rag_document_assistant.py` demonstrates a basic RAG pipeline.
 
-The script loads documents, converts them into embeddings, retrieves
-the most relevant document for a question using cosine similarity,
-and uses an OpenAI model to generate an answer based on that context.
+- Loads documents
+- Converts them into embeddings
+- Retrieves the most relevant document for a question using cosine similarity
+- Generates an answer using OpenAI
 
 ### PDF Document Assistant
 
-`pdf_rag_assistant.py` demonstrates a Retrieval-Augmented
-Generation (RAG) pipeline that can answer questions about
-a PDF document.
+`pdf_rag_assistant.py` demonstrates a RAG pipeline for PDF documents.
 
-### PDF RAG Assistant with Vector Database
+- Extracts text from a PDF
+- Splits text into chunks
+- Generates embeddings and stores them in **Chroma vector database**
+- Retrieves relevant chunks and generates answers
+- **Vector database caching** avoids repeated embeddings for faster runs
 
-`pdf_rag_chroma.py` demonstrates a Retrieval-Augmented
-Generation (RAG) pipeline that uses a vector database
-to store and retrieve document embeddings.
+### PDF RAG Chroma Assistant
 
-The script extracts text from a PDF document, splits the text into smaller chunks, generates embeddings using the OpenAI API, and stores those embeddings in ChromaDB. The vector database is reused across runs to avoid regenerating embeddings.
+`pdf_rag_chroma.py` is an enhanced version:
 
-When a user asks a question, the script retrieves the
-most relevant document chunks using semantic similarity
-search and uses an OpenAI model to generate an answer
-based on the retrieved context.
+- Reads PDFs
+- Splits into chunks
+- Stores embeddings in **persistent ChromaDB**
+- Reuses embeddings if already present
+- Optimized for speed and cost
+- Shows modular design calling functions from `rag_engine.py`
 
-### Vector Database Caching
+---
 
-To avoid recreating embeddings every time the script runs, the application checks whether the vector database already contains stored embeddings.
+## Demo
 
-If embeddings exist, the script reuses the existing vector database instead of generating new embeddings.
+### Upload PDF
 
-Benefits:
+![Upload PDF](docs/upload_ui.png)
 
-* Reduces OpenAI API calls
-* Improves performance
-* Demonstrates a common optimization used in production Retrieval-Augmented Generation systems
+### Ask Questions About the Document
 
+![Question Answer](docs/qa_example.png)
 
-The script:
-1. Extracts text from a PDF
-2. Splits the document into chunks
-3. Generates embeddings for each chunk
-4. Finds the most relevant context using cosine similarity
-5. Uses an LLM to generate an answer based on the retrieved context
+---
 
-### AI Document Chat Web App
+## Key Features
 
-`streamlit_app.py` provides a web interface for the
-PDF RAG assistant using Streamlit.
+- Modular RAG engine (`rag_engine.py`)  
+- PDF ingestion and text chunking  
+- Embedding generation and caching  
+- Persistent vector database (ChromaDB)  
+- Streamlit web UI for interactive questions  
+- Portfolio-ready structure for recruiters and engineers
 
-Users can upload a PDF document and ask questions
-about the document content. The application
-retrieves relevant text using vector similarity
-search and generates answers using the OpenAI API.
+---
 
-## Setup
+## Notes
 
-This project requires Python 3.12 or later.
+- Make sure `.env` contains your **OpenAI API key**  
+- Do not commit `.env` or `ai-env/` to GitHub  
+- Requires Python 3.12+ to run `pdf_rag_chroma.py` due to SQLite version requirements  
 
-### Create a virtual environment
-Use Python 3.12 to create a virtual environment for the project.
-- py -3.12 -m venv ai-env
-Activate the environment:
-- ai-env\Scripts\activate
-Verify the Python version:
-- python --version
-python --version: 
-- Python 3.12.x
-Install dependencies:
-- pip install -r requirements.txt
-Install python-dotenv if not already installed:
-- pip install python-dotenv
-Install chroma, streamlit if not already installed:
+---
 
-Set your OpenAI API key securely
-- Create a .env file in the project root with the following content:
-- OPENAI_API_KEY=sk-XXXX
-- Make sure .env is listed in .gitignore so it is never pushed to GitHub
-Run the scripts:
-- python code/test_ai.py
-- python code/embeddings_demo.py
-- test_ai.py → tests basic LLM prompts
-- embeddings_demo.py → generates embeddings and computes semantic similarity
+## Future Improvements
+
+- Add support for multiple PDF uploads  
+- Integrate more document formats (DOCX, TXT)  
+- Add user authentication and cloud deployment
