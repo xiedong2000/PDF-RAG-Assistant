@@ -1,4 +1,4 @@
-# OpenAI-Test
+# PDF-RAG-Assistant
 
 **Requirements:** Python 3.12+, OpenAI API key
 
