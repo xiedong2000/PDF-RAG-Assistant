@@ -3,8 +3,8 @@
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![OpenAI](https://img.shields.io/badge/OpenAI-API-brightgreen)
 ![Streamlit](https://img.shields.io/badge/Streamlit-UI-orange)
-![License](https://img.shields.io/github/license/xiedong2000/PDF-RAG-Assistant)
-![GitHub last commit](https://img.shields.io/github/last-commit/xiedong2000/PDF-RAG-Assistant)
+
+---
 
 ## Overview
 
@@ -20,23 +20,12 @@ This project demonstrates **real-world AI system design** and is structured for 
 
 ---
 
-## Demo
-
-### Upload PDF
-
-![Upload PDF](docs/upload_ui.png)
-
-### Ask Questions About the Document
-
-![Question Answer](docs/qa_example.png)
-
-
 ## Project Structure
 
 ```
 OpenAi-Public/
 │
-├── app/                     # Streamlit web UI
+├── app/                     # Streamlit web UI for interactive PDF Q&A
 ├── code/                    # Python scripts
 │   ├── rag_engine.py        # Embeddings, retrieval, answer generation
 │   ├── rag_document_assistant.py
@@ -118,6 +107,21 @@ OPENAI_API_KEY=your_openai_api_key_here
 - Optimized for speed and cost
 - Shows modular design calling functions from `rag_engine.py`
 
+### Streamlit App
+
+The `app/` folder contains a Streamlit app:
+
+- Interactive web interface for uploading PDFs
+- Ask questions about uploaded PDFs in real-time
+- Uses the RAG pipeline under the hood
+- Displays answers along with source document context
+
+Run the Streamlit app with:
+
+```bash
+streamlit run app/main.py
+```
+
 ---
 
 ## Demo
@@ -156,3 +160,4 @@ OPENAI_API_KEY=your_openai_api_key_here
 - Add support for multiple PDF uploads  
 - Integrate more document formats (DOCX, TXT)  
 - Add user authentication and cloud deployment
+
