@@ -7,39 +7,60 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-st.title("📄 Chat with Your PDF")
+st.title("📄 Chat with Your PDFs")
 
 client = OpenAI()
 
-uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
+uploaded_files = st.file_uploader(
+    "Upload one or more PDFs", type="pdf", accept_multiple_files=True
+)
 
-if uploaded_file is not None:
+if uploaded_files:
 
-    with pdfplumber.open(uploaded_file) as pdf:
+    def extract_pdf_text(uploaded_file):
         text = ""
+        with pdfplumber.open(uploaded_file) as pdf:
+            for page_num, page in enumerate(pdf.pages):
+                try:
+                    page_text = page.extract_text()
+                    if page_text:
+                        text += page_text
+                except Exception as e:
+                    st.warning(
+                        f"{uploaded_file.name} — could not extract text from page "
+                        f"{page_num + 1}: {str(e)}"
+                    )
+        return text
 
-        for page_num, page in enumerate(pdf.pages):
-            try:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text
-            except Exception as e:
-                st.warning(f"Could not extract text from page {page_num + 1}: {str(e)}")
-                # Skip this page and continue
-                continue
+    chunks = []
+    chunk_ids = []
+    files_indexed = 0
+    for uploaded_file in uploaded_files:
+        text = extract_pdf_text(uploaded_file)
+        if not text.strip():
+            st.warning(f'Skipping "{uploaded_file.name}": no extractable text.')
+            continue
+        labeled = f"[Source: {uploaded_file.name}]\n{text}"
+        file_chunks = [labeled[i : i + 500] for i in range(0, len(labeled), 500)]
+        for j, chunk in enumerate(file_chunks):
+            chunks.append(chunk)
+            chunk_ids.append(f"f{files_indexed}_c{j}")
+        files_indexed += 1
 
-    if not text.strip():
-        st.error("Could not extract any text from the PDF. Please try a different PDF file.")
+    if not chunks:
+        st.error(
+            "Could not extract any text from the uploaded PDFs. Try different files."
+        )
         st.stop()
 
-    chunks = [text[i:i+500] for i in range(0, len(text), 500)]
-
-    st.write(f"Document split into {len(chunks)} chunks")
+    st.write(
+        f"Indexed {files_indexed} PDF(s) ({len(chunks)} chunk(s) total)."
+    )
 
     chroma_client = chromadb.Client()
     collection = chroma_client.get_or_create_collection(name="pdf_docs")
 
-    for i, chunk in enumerate(chunks):
+    for chunk, cid in zip(chunks, chunk_ids):
         embedding = client.embeddings.create(
             model="text-embedding-3-small",
             input=chunk
@@ -48,10 +69,10 @@ if uploaded_file is not None:
         collection.add(
             documents=[chunk],
             embeddings=[embedding],
-            ids=[str(i)]
+            ids=[cid]
         )
 
-    question = st.text_input("Ask a question about the document")
+    question = st.text_input("Ask a question about your document(s)")
 
     if question:
 
@@ -62,7 +83,7 @@ if uploaded_file is not None:
 
         results = collection.query(
             query_embeddings=[q_embedding],
-            n_results=2
+            n_results=min(len(chunks), 5),
         )
 
         context = "\n".join(results["documents"][0])

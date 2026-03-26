@@ -113,17 +113,17 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 ### Streamlit App
 
-The `app/` folder contains a Streamlit app:
+The `app/` folder contains a Streamlit app (`streamlit_app.py`):
 
-- Interactive web interface for uploading PDFs
-- Ask questions about uploaded PDFs in real-time
-- Uses the RAG pipeline under the hood
-- Displays answers along with source document context
+- Interactive web interface for uploading **one or more PDFs** at once
+- Text is chunked per file with `[Source: filename]` so answers can be grounded in the right document
+- Ask questions across all indexed PDFs in real time
+- Uses embeddings + Chroma retrieval and OpenAI for answers
 
 Run the Streamlit app with:
 
 ```bash
-streamlit run app/main.py
+streamlit run app/streamlit_app.py
 ```
 
 ---
@@ -144,6 +144,7 @@ streamlit run app/main.py
 
 - Modular RAG engine (`rag_engine.py`)  
 - PDF ingestion and text chunking  
+- **Multi-PDF upload** in the Streamlit UI with per-file source labels in chunks  
 - Embedding generation and caching  
 - Persistent vector database (ChromaDB)  
 - Streamlit web UI for interactive questions  
@@ -161,7 +162,8 @@ streamlit run app/main.py
 
 ## Future Improvements
 
-- Add support for multiple PDF uploads  
 - Integrate more document formats (DOCX, TXT)  
-- Add user authentication and cloud deployment
+- Persist Chroma data across Streamlit sessions and avoid re-embedding on every rerun  
+- Add user authentication and cloud deployment  
+- Surface retrieved chunk sources in the UI (expandable citations)
 
