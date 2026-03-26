@@ -1,8 +1,11 @@
 import streamlit as st
 from openai import OpenAI
 import chromadb
-from pypdf import PdfReader
+import pdfplumber
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 st.title("📄 Chat with Your PDF")
 
@@ -12,11 +15,22 @@ uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
 if uploaded_file is not None:
 
-    reader = PdfReader(uploaded_file)
-    text = ""
+    with pdfplumber.open(uploaded_file) as pdf:
+        text = ""
 
-    for page in reader.pages:
-        text += page.extract_text()
+        for page_num, page in enumerate(pdf.pages):
+            try:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text
+            except Exception as e:
+                st.warning(f"Could not extract text from page {page_num + 1}: {str(e)}")
+                # Skip this page and continue
+                continue
+
+    if not text.strip():
+        st.error("Could not extract any text from the PDF. Please try a different PDF file.")
+        st.stop()
 
     chunks = [text[i:i+500] for i in range(0, len(text), 500)]
 
