@@ -12,13 +12,13 @@
 
 ## Overview
 
-**PDF-RAG-Assistant** is a Retrieval-Augmented Generation (RAG) AI assistant that can answer questions about PDF documents.  
+**PDF-RAG-Assistant** is a Retrieval-Augmented Generation (RAG) assistant that answers questions from **PDF, DOCX, and TXT** files (via the Streamlit app), with additional PDF-focused scripts under `code/`.  
 It uses:
 
 - **OpenAI embeddings** to convert text into numerical vectors
-- **Chroma vector database** to store and retrieve document embeddings efficiently
-- **Streamlit** web interface for interactive Q&A
-- **Vector database caching** to avoid repeated embedding generation
+- **Chroma** to store and retrieve document embeddings
+- **Streamlit** for interactive multi-file upload and Q&A
+- **Vector database caching** in the CLI scripts to avoid repeated embedding work
 
 This project demonstrates **real-world AI system design** and is structured for modularity and reusability.
 
@@ -27,9 +27,9 @@ This project demonstrates **real-world AI system design** and is structured for 
 ## Project Structure
 
 ```
-OpenAi-Public/
+PDF-RAG-Assistant/
 │
-├── app/                     # Streamlit web UI for interactive PDF Q&A
+├── app/                     # Streamlit UI: PDF, DOCX, TXT upload and Q&A
 ├── code/                    # Python scripts
 │   ├── rag_engine.py        # Embeddings, retrieval, answer generation
 │   ├── rag_document_assistant.py
@@ -62,12 +62,14 @@ python -m venv ai-env
 ai-env\Scripts\activate
 ```
 
-4. **Install dependencies**:
+4. **Install dependencies** (includes `pdfplumber`, `python-docx` for DOCX, `streamlit`, `chromadb`, etc.):
 
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+Use the **same virtual environment** when you run `streamlit run`; otherwise you may see `ModuleNotFoundError: No module named 'docx'`—fix with `pip install python-docx` or re-run `pip install -r requirements.txt` in that environment.
 
 5. **Create `.env` file** in the project root and add your OpenAI key:
 
@@ -115,10 +117,12 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 The `app/` folder contains a Streamlit app (`streamlit_app.py`):
 
-- Interactive web interface for uploading **one or more PDFs** at once
+- Interactive web interface for uploading **one or more PDF, DOCX, or TXT** files at once
 - Text is chunked per file with `[Source: filename]` so answers can be grounded in the right document
-- Ask questions across all indexed PDFs in real time
-- Uses embeddings + Chroma retrieval and OpenAI for answers
+- DOCX ingestion includes paragraphs and table cell text; TXT is read as UTF-8 (invalid bytes replaced)
+- Ask questions across all indexed documents in real time
+- Uses embeddings + Chroma retrieval (`user_documents` collection) and OpenAI for answers  
+- If `python-docx` is missing, PDF and TXT still work; uploading a DOCX shows an install hint in the UI
 
 Run the Streamlit app with:
 
@@ -130,7 +134,7 @@ streamlit run app/streamlit_app.py
 
 ## Demo
 
-### Upload PDF
+### Upload (PDF; UI also supports DOCX and TXT)
 
 ![Upload PDF](docs/upload_ui.png)
 
@@ -144,7 +148,7 @@ streamlit run app/streamlit_app.py
 
 - Modular RAG engine (`rag_engine.py`)  
 - PDF ingestion and text chunking  
-- **Multi-PDF upload** in the Streamlit UI with per-file source labels in chunks  
+- **Multi-file upload** (PDF, DOCX, TXT) in the Streamlit UI with per-file source labels in chunks  
 - Embedding generation and caching  
 - Persistent vector database (ChromaDB)  
 - Streamlit web UI for interactive questions  
@@ -156,13 +160,13 @@ streamlit run app/streamlit_app.py
 
 - Make sure `.env` contains your **OpenAI API key**  
 - Do not commit `.env` or `ai-env/` to GitHub  
+- **DOCX** requires the `python-docx` package (listed in `requirements.txt`); legacy `.doc` is not supported  
 - Requires Python 3.12+ to run `pdf_rag_chroma.py` due to SQLite version requirements  
 
 ---
 
 ## Future Improvements
 
-- Integrate more document formats (DOCX, TXT)  
 - Persist Chroma data across Streamlit sessions and avoid re-embedding on every rerun  
 - Add user authentication and cloud deployment  
 - Surface retrieved chunk sources in the UI (expandable citations)
