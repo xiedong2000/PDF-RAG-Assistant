@@ -1,4 +1,6 @@
-# PDF-RAG-Assistant
+# Document-RAG-Assistant
+
+RAG Q&A over **PDF, DOCX, and TXT** (Streamlit) plus PDF-oriented scripts in `code/`.
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![OpenAI](https://img.shields.io/badge/OpenAI-API-brightgreen)
@@ -12,7 +14,7 @@
 
 ## Overview
 
-**PDF-RAG-Assistant** is a Retrieval-Augmented Generation (RAG) assistant that answers questions from **PDF, DOCX, and TXT** files (via the Streamlit app), with additional PDF-focused scripts under `code/`.  
+**Document-RAG-Assistant** is a Retrieval-Augmented Generation (RAG) assistant that answers questions from **PDF, DOCX, and TXT** files (via the Streamlit app), with additional PDF-focused scripts under `code/`.  
 It uses:
 
 - **OpenAI embeddings** to convert text into numerical vectors
@@ -27,7 +29,7 @@ This project demonstrates **real-world AI system design** and is structured for 
 ## Project Structure
 
 ```
-PDF-RAG-Assistant/
+Document-RAG-Assistant/
 │
 ├── app/                     # Streamlit UI: PDF, DOCX, TXT upload and Q&A
 ├── code/                    # Python scripts
@@ -36,6 +38,7 @@ PDF-RAG-Assistant/
 │   ├── pdf_rag_assistant.py
 │   └── pdf_rag_chroma.py
 ├── docs/                    # Screenshots for README
+│   ├── TalkWithYourDocsNewScreenShot.png
 │   ├── upload_ui.png
 │   └── qa_example.png
 ├── documents/               # Sample PDF or text documents
@@ -134,13 +137,9 @@ streamlit run app/streamlit_app.py
 
 ## Demo
 
-### Upload (PDF; UI also supports DOCX and TXT)
+### Streamlit app (PDF, DOCX, TXT)
 
-![Upload PDF](docs/upload_ui.png)
-
-### Ask Questions About the Document
-
-![Question Answer](docs/qa_example.png)
+![Document RAG Assistant — upload and ask questions](docs/TalkWithYourDocsNewScreenShot.png)
 
 ---
 
@@ -162,6 +161,7 @@ streamlit run app/streamlit_app.py
 - Do not commit `.env` or `ai-env/` to GitHub  
 - **DOCX** requires the `python-docx` package (listed in `requirements.txt`); legacy `.doc` is not supported  
 - Requires Python 3.12+ to run `pdf_rag_chroma.py` due to SQLite version requirements  
+- **Project name vs GitHub:** this repo is branded **Document-RAG-Assistant**. If your remote is still `PDF-RAG-Assistant`, either rename the repository on GitHub or change the four `shields.io` URLs above so the slug matches your repo.  
 
 ---
 

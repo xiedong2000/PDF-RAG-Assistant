@@ -8,7 +8,9 @@ from openai import OpenAI
 
 load_dotenv()
 
-st.title("📄 Chat with Your Documents")
+st.set_page_config(page_title="Document RAG Assistant", page_icon="📄")
+
+st.title("📄 Document RAG Assistant")
 
 client = OpenAI()
 
