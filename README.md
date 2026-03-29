@@ -206,5 +206,5 @@ Run the Streamlit app with:
 
 - Persist Chroma data across Streamlit sessions and avoid re-embedding on every rerun  
 - Add user authentication and cloud deployment  
-- Surface retrieved chunk sources in the UI (expandable citations)
+- Refine citation UX for retrieved chunks and make source context easier to inspect
 

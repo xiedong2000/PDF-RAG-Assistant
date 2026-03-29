@@ -74,6 +74,7 @@ if uploaded_files:
 
     chunks = []
     chunk_ids = []
+    chunk_sources = []
     files_indexed = 0
     for uploaded_file in uploaded_files:
         text = extract_document_text(uploaded_file)
@@ -85,6 +86,7 @@ if uploaded_files:
         for j, chunk in enumerate(file_chunks):
             chunks.append(chunk)
             chunk_ids.append(f"f{files_indexed}_c{j}")
+            chunk_sources.append(uploaded_file.name)
         files_indexed += 1
 
     if not chunks:
@@ -98,9 +100,15 @@ if uploaded_files:
     )
 
     chroma_client = chromadb.Client()
+
+    try:
+        chroma_client.delete_collection(name="user_documents")
+    except Exception:
+        pass
+
     collection = chroma_client.get_or_create_collection(name="user_documents")
 
-    for chunk, cid in zip(chunks, chunk_ids):
+    for chunk, cid, source in zip(chunks, chunk_ids, chunk_sources):
         embedding = client.embeddings.create(
             model="text-embedding-3-small",
             input=chunk
@@ -109,7 +117,8 @@ if uploaded_files:
         collection.add(
             documents=[chunk],
             embeddings=[embedding],
-            ids=[cid]
+            ids=[cid],
+            metadatas=[{"source": source}]
         )
 
     question = st.text_input("Ask a question about your document(s)")
@@ -124,12 +133,24 @@ if uploaded_files:
         results = collection.query(
             query_embeddings=[q_embedding],
             n_results=min(len(chunks), 5),
+            include=["documents", "metadatas", "distances"]
         )
 
-        context = "\n".join(results["documents"][0])
+        retrieved_docs = results["documents"][0]
+        retrieved_meta = results["metadatas"][0]
+        retrieved_distances = results["distances"][0]
+
+        st.subheader("Retrieved chunks")
+        for idx, (doc, meta, distance) in enumerate(zip(retrieved_docs, retrieved_meta, retrieved_distances), start=1):
+            source_name = meta.get("source", "unknown")
+            with st.expander(f"{idx}. {source_name} — distance {distance:.4f}"):
+                st.write(doc)
+
+        context = "\n".join(retrieved_docs)
 
         prompt = f"""
-        Answer the question using the context below.
+        Use only the provided context to answer the question.
+        If the answer is not contained in the context, say you do not know.
 
         Context:
         {context}
