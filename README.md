@@ -54,33 +54,70 @@ Document-RAG-Assistant/
 1. **Install Python 3.12+**  
 2. **Create virtual environment**:
 
-```bash
+```powershell
 python -m venv ai-env
+```
+
+If you have multiple Python versions installed, use the 3.12+ executable explicitly:
+
+```powershell
+python3.12 -m venv ai-env
+# or
+python3.13 -m venv ai-env
 ```
 
 3. **Activate environment**:
 
-```bash
-# Windows
-ai-env\Scripts\activate
+```powershell
+# Windows PowerShell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+. .\ai-env\Scripts\Activate.ps1
+
+# Or Windows CMD
+ai-env\Scripts\activate.bat
 ```
 
 4. **Install dependencies** (includes `pdfplumber`, `python-docx` for DOCX, `streamlit`, `chromadb`, etc.):
 
-```bash
-pip install --upgrade pip
+```powershell
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Use the **same virtual environment** when you run `streamlit run`; otherwise you may see `ModuleNotFoundError: No module named 'docx'`—fix with `pip install python-docx` or re-run `pip install -r requirements.txt` in that environment.
+5. **Verify the virtual environment Python version**:
 
-5. **Create `.env` file** in the project root and add your OpenAI key:
+```powershell
+python --version
+```
+
+It must show `Python 3.12+` while the virtual environment is active. If it shows `Python 3.9.x`, the env was created with the wrong interpreter and must be recreated with Python 3.12+.
+
+6. **Create `.env` file** in the project root and add your OpenAI key:
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-6. **Place PDF or text documents** in `documents/` folder.
+7. **Place PDF or text documents** in `documents/` folder.
+
+> Note: Use the same virtual environment when you run the app. If `streamlit` is not found, run:
+>
+> ```powershell
+> python -m streamlit run app/streamlit_app.py
+> ```
+>
+> If you get an OpenAI API key error, check that the `.env` file is in the repo root and contains exactly:
+>
+> ```bash
+> OPENAI_API_KEY=your_openai_api_key_here
+> ```
+>
+> In PowerShell, you can also set the variable manually for the current session:
+>
+> ```powershell
+> $env:OPENAI_API_KEY = 'your_openai_api_key_here'
+> python -m streamlit run app/streamlit_app.py
+> ```
 
 ---
 
@@ -130,7 +167,7 @@ The `app/` folder contains a Streamlit app (`streamlit_app.py`):
 Run the Streamlit app with:
 
 ```bash
-streamlit run app/streamlit_app.py
+
 ```
 
 ---
